@@ -11,18 +11,27 @@ const bookingSchema = new mongoose.Schema({
         required: true,
         ref: 'Car'
     },
-    startDate: {
-        type: Date,
+    model: {
+        type: String,
         required: true
     },
-    endDate: {
+    date: {
         type: Date,
+        required: true,
+        default: Date.now
+    },
+    hours:{
+        type: Number,
+        required: true
+    },
+    amount:{
+        type: Number,
         required: true
     },
     status: {
         type: String,
         enum: ['pending', 'approved', 'rejected'],
-        default: 'pending'
+        default: 'approved'
     }
 },{timestamps:true})        
 

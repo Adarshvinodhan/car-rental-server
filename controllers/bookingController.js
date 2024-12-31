@@ -1,24 +1,15 @@
-import carModel from "../models/carModel.js";
 import bookingModel from "../models/bookingModel.js";
 
 export const createBooking = async (req, res) => {
     try {
-        const { carId, startDate, endDate } = req.body;
-        const car = await carModel.findById(carId);
-        if (!car) {
-            return res.status(404).json({ message: "Car not found" });
-        }
-        const booking = await bookingModel.create({
-            user: req.user.id,
-            car: carId,
-            startDate,
-            endDate,
-        });
-        res.status(201).json(booking);
+      const {user,car,hours,amount,model} = req.body;
+      const payment = await bookingModel.create({user,car,hours,amount,model,status:"approved"});
+        res.status(201).json(payment);
     } catch (err) {
+        console.log(err);
         res.status(500).json({ message: err.message });
     }
-};
+}
 
 export const getAllBookings = async (req, res) => {
     try {
@@ -53,25 +44,9 @@ export const deleteBookingById = async (req, res) => {
     }
 };
 
-export const updateBooking = async (req, res) => {
-    try {
-        const booking = await bookingModel.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
-        );
-        if (!booking) {
-            return res.status(404).json({ message: "Booking not found" });
-        }
-        res.status(200).json(booking);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-}; 
-
 export const getBookingsByUserId = async (req, res) => {
     try {
-        const bookings = await bookingModel.find({ user: req.user._id });
+        const bookings = await bookingModel.find({ user: req.user.id });
         res.status(200).json(bookings);
     } catch (err) {
         res.status(500).json({ message: err.message });
