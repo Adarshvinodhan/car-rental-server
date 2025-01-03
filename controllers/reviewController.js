@@ -14,7 +14,7 @@ export const createReview = async (req, res) => {
 
 export const getReviewByCarId = async (req, res) => {
     try {
-        const reviews = await Review.find({ car: req.params.carId });
+        const reviews = await Review.find({ car: req.params.id });
         res.status(200).json(reviews);
     } catch (err) {
         res.status(500).json({ message: err.message });
