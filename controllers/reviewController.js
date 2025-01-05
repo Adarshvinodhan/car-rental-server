@@ -41,3 +41,16 @@ export const deleteReview = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 }
+
+export const getUserReviewByBookingId = async (req, res) => {
+    try {
+        const review = await Review.findOne({ carId: req.params.id,
+                                              userId:req.user.id });
+        if (!review) {
+            return res.status(404).json({ message: 'Review not found' });
+        }
+        res.status(200).json(review);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
