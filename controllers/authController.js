@@ -58,7 +58,6 @@ const loginUser = async(req,res)=>{
             }
         }
         else{
-            const username = user.username;
             const token = jwt.sign({id:user._id,role:user.role,username:user.username,email:user.email},process.env.SECRET_KEY)
             res.status(200).json({
                 message:"login Successfull",
