@@ -14,17 +14,18 @@ const UserSchema = new mongoose.Schema({
     },
     phone:{
         type:String,
-        required:true,
-        unique:true
+        default:'+91'
     },
     password:{
         type:String,
-        required:true
     },
     role:{
         type:String,
         enum:['admin','user'],
         default:'user'
+    },
+    googleId:{
+        type:String
     }
 },{timestamps:true})
 

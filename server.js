@@ -1,6 +1,8 @@
 import express from 'express'
 import 'dotenv/config'
 import cors from 'cors'
+import passport from 'passport'
+import './config/passport.js'
 import connectDB from './config/dbconfig.js'
 import {router as authRouter} from './routes/authRoutes.js';
 import {router as carRouter} from './routes/carRoutes.js';
@@ -15,6 +17,7 @@ const app = express();
 //Middlewares
 app.use(express.json());
 app.use(cors());
+app.use(passport.initialize());
 
 //Routes
 app.use('/api/',authRouter,carRouter,bookingRouter,userRouter,paymentRouter,reviewRouter);

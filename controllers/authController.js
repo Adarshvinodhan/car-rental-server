@@ -1,9 +1,9 @@
 import User from '../models/userModel.js';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
+import passport from "passport";
 
-//REGISTER USER
-
+//Register User
 const registerUser = async(req,res)=>{
     try{
         const {username,email,phone,password} = req.body;
@@ -40,7 +40,7 @@ const registerUser = async(req,res)=>{
     }
 }
 
-//LOGIN USER
+//Login User
 
 const loginUser = async(req,res)=>{
     try{
@@ -74,3 +74,30 @@ const loginUser = async(req,res)=>{
 }
 
 export {registerUser,loginUser}
+
+//Google
+export const googleAuth = passport.authenticate("google", {
+  scope: ["profile", "email"],
+});
+
+// Handle callback after Google authentication
+export const googleCallback = passport.authenticate("google", {
+  session: false,
+  failureRedirect: "/",
+});
+
+// Handle successful authentication and generate JWT
+export const googleSuccess =  (req, res) => {
+    const user = req.user; 
+    const payload = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: "user"
+    };
+    const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '1h' })
+    const frontendURL = process.env.FRONTEND_URL
+    res.redirect(`${frontendURL}/auth-success?token=${token}`);
+};
+
+  
