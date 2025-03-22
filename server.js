@@ -21,6 +21,9 @@ app.use(passport.initialize());
 
 //Routes
 app.use('/api/',authRouter,carRouter,bookingRouter,userRouter,paymentRouter,reviewRouter);
+app.post('/ping',(req,res)=>{
+  res.send("pong")
+})
 
 //Connect DB & Start Server
 connectDB();
