@@ -21,7 +21,7 @@ app.use(passport.initialize());
 
 //Routes
 app.use('/api/',authRouter,carRouter,bookingRouter,userRouter,paymentRouter,reviewRouter);
-app.post('/ping',(req,res)=>{
+app.get('/ping',(req,res)=>{
   res.send("pong")
 })
 
